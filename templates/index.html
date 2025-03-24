@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processador de Imagens</title>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Ícones do Google -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+        .container {
+            margin-top: 40px;
+        }
+        .card {
+            padding: 20px;
+            border-radius: 15px;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .btn {
+            margin: 10px;
+        }
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #37474f;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h3 class="blue-text text-darken-2">Processador de Imagens</h3>
+        <p>Envie uma imagem e aplique efeitos visuais usando OpenCV.</p>
+
+        <!-- Upload de Imagem -->
+        <div class="card">
+            <form action="/" method="post" enctype="multipart/form-data">
+                <div class="file-field input-field">
+                    <div class="btn blue">
+                        <span><i class="material-icons">cloud_upload</i> Escolher Imagem</span>
+                        <input type="file" name="image" required>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" placeholder="Nenhuma imagem selecionada">
+                    </div>
+                </div>
+                <button type="submit" class="btn waves-effect waves-light green">
+                    <i class="material-icons left">send</i> Enviar Imagem
+                </button>
+            </form>
+        </div>
+
+        {% if uploaded_image %}
+            <!-- Exibição da Imagem Original -->
+            <h4 class="blue-text text-darken-2">Imagem Original</h4>
+            <img class="responsive-img card" src="{{ url_for('static', filename='uploads/' + uploaded_image) }}" alt="Imagem Original">
+
+            <!-- Botões de Filtros -->
+            <h4 class="blue-text text-darken-2">Filtros Disponíveis</h4>
+            <div>
+                <a href="{{ url_for('process', filter_type='blur') }}" class="btn blue waves-effect waves-light">
+                    <i class="material-icons left">blur_on</i> Blur
+                </a>
+                <a href="{{ url_for('process', filter_type='sharpen') }}" class="btn red waves-effect waves-light">
+                    <i class="material-icons left">brightness_high</i> Sharpen
+                </a>
+                <a href="{{ url_for('process', filter_type='rotate') }}" class="btn orange waves-effect waves-light">
+                    <i class="material-icons left">rotate_right</i> Rotacionar
+                </a>
+            </div>
+
+            {% if processed_image %}
+                <!-- Exibição da Imagem Processada -->
+                <h4 class="green-text text-darken-2">Imagem Processada</h4>
+                <img class="responsive-img card" src="{{ url_for('static', filename='uploads/' + processed_image) }}" alt="Imagem Processada">
+            {% endif %}
+        {% endif %}
+    </div>
+
+
+
+    <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>
